@@ -1,6 +1,8 @@
 ﻿using BaiTapMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 
 namespace BaiTapMVC.Controllers
 {
@@ -14,7 +16,7 @@ namespace BaiTapMVC.Controllers
         [BindProperty]
         public string ProductName { get; set; }
         [BindProperty]
-        public string Picture { get; set; }
+        public IFormFile Picture { get; set; }
         [BindProperty]
         public string UnitPrice { get; set; }   
         public ProductController()
@@ -24,6 +26,8 @@ namespace BaiTapMVC.Controllers
         public IActionResult Index()
         {
             var listProduct = _context.Products.ToList();
+            var listCatalog = _context.Catalogs.ToList();
+            ViewBag.listCatalog = listCatalog;
             return View(listProduct);
         }
         public IActionResult Create()
@@ -37,8 +41,21 @@ namespace BaiTapMVC.Controllers
             var product = new Product();
             product.CatalogId = int.Parse(CatalogId);
             product.ProductCode = ProductCode;      
-            product.ProductName = ProductName;      
-            product.Picture = Picture;
+            product.ProductName = ProductName;
+            if (Picture != null && Picture.Length > 0)
+            {
+                // Đường dẫn nơi lưu ảnh trong thư mục wwwroot/Hinh
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Hinh", Picture.FileName);
+
+                // Lưu file vào thư mục đích
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    Picture.CopyTo(stream);
+                }
+
+                // Gán đường dẫn của file ảnh vào model để lưu vào database
+                product.Picture = Picture.FileName;
+            }
             product.UnitPrice = double.Parse(UnitPrice);
             _context.Products.Add(product); 
             _context.SaveChanges();
@@ -59,7 +76,20 @@ namespace BaiTapMVC.Controllers
                 product.ProductName = ProductName;
                 product.ProductCode = ProductCode;
                 product.CatalogId = int.Parse(CatalogId);
-                product.Picture = Picture;
+                if (Picture != null && Picture.Length > 0)
+                {
+                    // Đường dẫn nơi lưu ảnh trong thư mục wwwroot/Hinh
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Hinh", Picture.FileName);
+
+                    // Lưu file vào thư mục đích
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        Picture.CopyTo(stream);
+                    }
+
+                    // Gán đường dẫn của file ảnh vào model để lưu vào database
+                    product.Picture = Picture.FileName;
+                }
                 product.UnitPrice = double.Parse(UnitPrice);
                 _context.SaveChanges();
             }
@@ -84,6 +114,20 @@ namespace BaiTapMVC.Controllers
         {
             var product = _context.Products.Find(Id);
             return View(product);
+        }
+        public IActionResult getListProduct(int iddm)
+        {
+            List<Product> products;
+
+            if (iddm == -1)
+            {
+                products = _context.Products.Include(p => p.Catalog).ToList();
+            }
+            else
+            {
+                products = _context.Products.Where(p => p.CatalogId == iddm).Include(p => p.Catalog).ToList();
+            }
+            return PartialView("_ListProduct", products);   
         }
     }
 }
