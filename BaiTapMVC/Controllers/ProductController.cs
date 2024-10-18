@@ -1,4 +1,5 @@
 ﻿using BaiTapMVC.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -23,6 +24,7 @@ namespace BaiTapMVC.Controllers
         {
             _context = new QuanLySanPhamContext();
         }
+        //[Authorize]
         public IActionResult Index()
         {
             var listProduct = _context.Products.ToList();

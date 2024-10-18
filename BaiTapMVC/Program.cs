@@ -1,4 +1,5 @@
-using BaiTapMVC.Models;
+﻿using BaiTapMVC.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 namespace BaiTapMVC
@@ -11,6 +12,17 @@ namespace BaiTapMVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/Account/Login"; // Đường dẫn để chuyển hướng khi chưa đăng nhập
+            });
 
             var app = builder.Build();
 
@@ -31,7 +43,7 @@ namespace BaiTapMVC
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Catalog}/{action=Index}/{id?}");
+                pattern: "{controller=Product}/{action=Index}/{id?}");
 
             app.Run();
         }
