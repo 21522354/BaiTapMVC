@@ -12,9 +12,7 @@
             <div class="product__item">
                 <div class="product__item__pic set-bg" data-setbg="@Url.Content("~/Hinh/" + item.Picture)" style="background-image: url('@Url.Content("~/Hinh/" + item.Picture)'); background-size:contain">
                     <ul class="product__item__pic__hover">
-                        <li><a asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a></li>
-                        <li><a asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-expand"></i></a></li>
-                        <li><a asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-remove"></i></a></li>
+                        <li><a asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a></li>
                     </ul>
                 </div>
                 <div class="product__item__text">
