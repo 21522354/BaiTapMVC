@@ -13,6 +13,7 @@ namespace BaiTapMVC
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;

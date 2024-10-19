@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BaiTapMVC.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BaiTapMVC.Areas.Admin.Controllers
 {
