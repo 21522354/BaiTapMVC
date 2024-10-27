@@ -33,7 +33,7 @@ namespace BaiTapMVC.Controllers
 
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties).Wait();
 
-            return RedirectToAction("Index", "Product");
+            return RedirectToAction("Index", "Products", new {area = "Admin"});
         }
     }
 }

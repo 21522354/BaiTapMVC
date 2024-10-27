@@ -24,9 +24,6 @@
 </head>
 <body>
     <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
 
     <!-- Humberger Begin -->
     <div class="humberger__menu__overlay"></div>
@@ -52,7 +49,7 @@
                 </ul>
             </div>
             <div class="header__top__right__auth">
-                <a href="#"><i class="fa fa-user"></i> Login</a>
+                <a asp-action="Login" asp-controller="Account" asp-area="">Login</a>
             </div>
         </div>
         <nav class="humberger__menu__nav mobile-menu">
@@ -118,7 +115,7 @@
                                 </ul>
                             </div>
                             <div class="header__top__right__auth">
-                                <a href="#"><i class="fa fa-user"></i> Login</a>
+                                <a asp-action="Login" asp-controller="Account"><i class="fa fa-user"></i> Login</a>
                             </div>
                         </div>
                     </div>

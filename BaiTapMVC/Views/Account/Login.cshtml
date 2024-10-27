@@ -1,4 +1,8 @@
-﻿@{Html.BeginForm("ConfirmLogin", "Account", FormMethod.Post);}
+﻿@{
+    Layout = null;
+}
+
+@{Html.BeginForm("ConfirmLogin", "Account", FormMethod.Post);}
 <div>Username</div>
 @Html.TextBox("UserName")
 <div>Password</div>
